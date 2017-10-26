@@ -67,7 +67,6 @@ applyCssForSliding = (function(numberOfNewsBlocksPerPage) {
 
 var getLeftValueAsInteger = (function(leftValue) {
     var value = parseInt(leftValue.split("px")[0]);
-    console.log(value);
     return value;
 });
 
@@ -91,15 +90,27 @@ slideLeft = (function() {
             var left = getLeftValueAsInteger(element.css("left")) - windowWidth;
             element.animate({
                 "left": left + "px"
-            }, 1000, function() {
+            }, 500, function() {
                 resolve();
             });
         });
         promiseArray.push(promise);
     });
 
-    Promise.all(promiseArray, function() {
-        alert("done");
+    Promise.all(promiseArray).then(function() {
+        // after slide css changes
+        newsBlocks.each(function() {
+            var left = getLeftValueAsInteger($(this).css("left"));
+            console.log(left);
+            if (left < 0) {
+                console.log("ppppp");
+                console.log(leftValueOfLastNewsBlock);
+                $(this).css({
+                    "left": leftValueOfLastNewsBlock + "px"
+                });
+            }
+        });
+
     });
 
 });
@@ -133,5 +144,5 @@ $(document).ready(function() {
     });
     window.setInterval(function() {
         slideLeft();
-    }, 5000);
+    }, 10000);
 });
