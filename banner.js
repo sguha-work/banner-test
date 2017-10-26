@@ -4,7 +4,8 @@ var bindClickEventsToNewsBlock,
     openURL,
     applyCssForSliding,
     getNumberOfNewsBlockPerPage,
-    slideLeft;
+    slideLeft,
+    leftValueOfLastNewsBlock;
 
 getNumberOfNewsBlockPerPage = (function() {
     return 9;
@@ -63,6 +64,8 @@ applyCssForSliding = (function(numberOfNewsBlocksPerPage) {
         }
         index += 1;
     });
+    leftValueOfLastNewsBlock = newsBlocks.last().css("left");
+    //alert(leftValueOfLastNewsBlock);
 });
 
 var getLeftValueAsInteger = (function(leftValue) {
@@ -75,14 +78,13 @@ slideLeft = (function() {
         newsBlocksLength,
         windowWidth,
         visibleNewsBlocks,
-        leftValueOfLastNewsBlock,
         promiseArray;
 
     promiseArray = [];
     windowWidth = $(window).width();
     newsBlocks = $(".banner-item-big, .banner-item-normal");
 
-    leftValueOfLastNewsBlock = newsBlocks.last().css("left");
+
     //alert(leftValueOfLastNewsBlock);
     newsBlocks.each(function() {
         var element = $(this);
@@ -101,12 +103,10 @@ slideLeft = (function() {
         // after slide css changes
         newsBlocks.each(function() {
             var left = getLeftValueAsInteger($(this).css("left"));
-            console.log(left);
             if (left < 0) {
-                console.log("ppppp");
                 console.log(leftValueOfLastNewsBlock);
                 $(this).css({
-                    "left": leftValueOfLastNewsBlock + "px"
+                    "left": leftValueOfLastNewsBlock
                 });
             }
         });
