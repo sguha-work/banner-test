@@ -81,9 +81,9 @@ slideLeft = (function() {
         promiseArray;
 
     promiseArray = [];
-    windowWidth = $(window).width();
-    newsBlocks = $(".banner-item-big, .banner-item-normal");
 
+    newsBlocks = $(".banner-item-big, .banner-item-normal");
+    windowWidth = newsBlocks.eq(1).parent().width();
 
     //alert(leftValueOfLastNewsBlock);
     newsBlocks.each(function() {
